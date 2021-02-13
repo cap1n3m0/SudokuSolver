@@ -1,14 +1,16 @@
 #include <iostream> 
 #include <vector> 
 #include <set> 
+#include <map> 
 
 using namespace std; 
 
 int main() {
     const int SIZE = 9; 
     vector<int> missingColumns; 
-    vector<int> numsToAdd {1, 2, 3, 4, 5, 6, 7, 8, 9};
+    vector<int> numsToAdd {1, 2, 3, 4, 5, 6, 7, 8, 9}; 
     set<int> possColl; 
+    map<int, int> possPos; 
     int grid[SIZE][SIZE] = 
     //    0  1  2  3  4  5  6  7  8
         {{3, 0, 6, 5, 0, 8, 4, 0, 0}, 

@@ -5,13 +5,11 @@
 using namespace std; 
 
 int main() {
-    int allNums[9] = {1, 2, 3, 4, 5, 6, 7, 8, 9}; 
+    const int SIZE = 9; 
     vector<int> missingColumns; 
-    vector<int> numsToAdd;
+    vector<int> numsToAdd {1, 2, 3, 4, 5, 6, 7, 8, 9};
     set<int> possColl; 
-    int* ptr = allNums; 
-    copy(ptr, ptr + 9, back_inserter(numsToAdd)); 
-    int grid[9][9] = 
+    int grid[SIZE][SIZE] = 
     //    0  1  2  3  4  5  6  7  8
         {{3, 0, 6, 5, 0, 8, 4, 0, 0}, 
          {5, 2, 0, 0, 0, 0, 0, 0, 0}, 
@@ -22,29 +20,20 @@ int main() {
          {1, 3, 0, 0, 0, 0, 2, 5, 0}, 
          {0, 0, 0, 0, 0, 0, 0, 7, 4}, 
          {0, 0, 5, 2, 0, 6, 3, 0, 0} }; 
-    // loop through row 0 of array
-    for (int i = 0; i < 9; i++) {
-         int num = grid[0][i]; 
+    for (int SEQ = 0; SEQ < SIZE; SEQ++) {
+        cout << "checking " << SEQ << endl; 
+        cout << "checking " << SEQ << endl; 
+        cout << "checking " << SEQ << endl; 
+        for (int i = 0; i < SIZE; i++) {
+         int num = grid[SEQ][i]; 
           vector<int> :: iterator f = find(numsToAdd.begin(), numsToAdd.end(), num); 
-        // if the array element is not 0
-        if (grid[0][i] != 0) {
-            // find if array elenment is in numsToAdd vector
-            // if it is erase it and add the column number to missingColumns
+        if (grid[SEQ][i] != 0) {
             if (f != numsToAdd.end()) {
                 numsToAdd.erase(f); 
             }
         } else {
             missingColumns.push_back(i); 
         }
-    }
-    // prints out the numbers it needs to add and the columns
-    cout << "Values that need to be added: " << endl; 
-    for (auto i : numsToAdd) {
-        cout << i << endl; 
-    }
-    cout << "Available columns: " << endl; 
-    for (auto i : missingColumns) {
-        cout << i << endl; 
     }
     vector<int> :: iterator i = missingColumns.begin(); 
     // loops though values it needs to add to find the right row
@@ -55,10 +44,10 @@ int main() {
         copy(missingColumns.begin(), missingColumns.end(), inserter(possColl, possColl.begin())); 
         for (int c = 0; c < missingColumns.size(); c++) {
          int currCol = missingColumns[c]; 
-          for (int j = 0; j < 9; j++) {
+          for (int j = 0; j < SIZE; j++) {
             if (j == currCol) {
-                for (int row = 0; row < 9; row++) {
-                    for (int col = 0; col < 9; col++) {
+                for (int row = 0; row < SIZE; row++) {
+                    for (int col = 0; col < SIZE; col++) {
                         if (col == currCol) {
                             if (grid[row][col] == num) {
                                 if (find(possColl.begin(), possColl.end(), col) != possColl.end()) {
@@ -75,6 +64,7 @@ int main() {
         for (auto i : possColl) {
             cout << num << " Can go in column " << i << endl; 
         }
+    }   
     }
     return 0; 
 }

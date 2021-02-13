@@ -6,7 +6,9 @@ using namespace std;
 int main() {
     int allNums[9] = {1, 2, 3, 4, 5, 6, 7, 8, 9}; 
     vector<int> missingColumns {}; 
-    vector<int> numsToAdd {1, 2, 3, 4, 5, 6, 7, 8, 9}; 
+    vector<int> numsToAdd;
+    int* ptr = allNums; 
+    copy(ptr, ptr + 9, back_inserter(numsToAdd)); 
     int grid[9][9] = 
         {{3, 0, 6, 5, 0, 8, 4, 0, 0}, 
          {5, 2, 0, 0, 0, 0, 0, 0, 0}, 
@@ -17,34 +19,39 @@ int main() {
          {1, 3, 0, 0, 0, 0, 2, 5, 0}, 
          {0, 0, 0, 0, 0, 0, 0, 7, 4}, 
          {0, 0, 5, 2, 0, 6, 3, 0, 0} }; 
-    // loop through array
+    // loop through row 0 of array
     for (int i = 0; i < 9; i++) {
+         int num = grid[0][i]; 
+          vector<int> :: iterator f = find(numsToAdd.begin(), numsToAdd.end(), num); 
         // if the array element is not 0
         if (grid[0][i] != 0) {
-            int num = grid[0][i]; 
             // find if array elenment is in numsToAdd vector
-            vector<int> :: iterator f = find(numsToAdd.begin(), numsToAdd.end(), num); 
             // if it is erase it and add the column number to missingColumns
             if (f != numsToAdd.end()) {
                 numsToAdd.erase(f); 
-                missingColumns.push_back(i); 
             }
+        } else {
+            missingColumns.push_back(i); 
         }
     }
-    // prints out the numbers it needs to add
-    for (int i : numsToAdd) {
-        cout << i << endl;
+    // prints out the numbers it needs to add and the columns
+    cout << "Values that need to be added: " << endl; 
+    for (auto i : numsToAdd) {
+        cout << i << endl; 
     }
-    cout << "Columns" << endl;
-    cout << "Columns" << endl;
-    cout << "Columns" << endl;
-    // prints out the missing column numbers
-    for (int i : missingColumns) {
-        cout << i << endl;
+    cout << "Available columns: " << endl; 
+    for (auto i : missingColumns) {
+        cout << i << endl; 
     }
-    cout << "Columns" << endl;
-    cout << "Columns" << endl;
-    cout << "Columns" << endl;
-    // finds the location by looking at column
+    // loops though values it needs to add to find the right row
+    for (int num : numsToAdd) {
+        for (int c = 0; c < missingColumns; c++) {
+         // loops through the missing columns
+         // needs to check if num is in the row of each of these missing columns
+         // if num is in this row, we can't put num there so we need to check the next row
+         // if all of the rows have num, we need to check the next column
+         // once a spot has been found we need to replace the grid position with num and move onto the next number
+        }
+    }
     return 0; 
 }

@@ -4,22 +4,15 @@
 
 using namespace std; 
 
-void columnOK() {
-
-}
-
-void nextColumn() {
-
-}
-
 int main() {
     int allNums[9] = {1, 2, 3, 4, 5, 6, 7, 8, 9}; 
     vector<int> missingColumns; 
     vector<int> numsToAdd;
-    set<int> noColumn; 
+    set<int> possColl; 
     int* ptr = allNums; 
     copy(ptr, ptr + 9, back_inserter(numsToAdd)); 
     int grid[9][9] = 
+    //    0  1  2  3  4  5  6  7  8
         {{3, 0, 6, 5, 0, 8, 4, 0, 0}, 
          {5, 2, 0, 0, 0, 0, 0, 0, 0}, 
          {0, 8, 7, 0, 0, 0, 0, 3, 1}, 
@@ -53,38 +46,34 @@ int main() {
     for (auto i : missingColumns) {
         cout << i << endl; 
     }
+    vector<int> :: iterator i = missingColumns.begin(); 
     // loops though values it needs to add to find the right row
     for (int num : numsToAdd) {
-        if (noColumn.size() > 0) {
-            noColumn.clear(); 
+        if (possColl.size() > 0) {
+            possColl.clear(); 
         }
+        copy(missingColumns.begin(), missingColumns.end(), inserter(possColl, possColl.begin())); 
         for (int c = 0; c < missingColumns.size(); c++) {
-         // loops through the missing columns
          int currCol = missingColumns[c]; 
-         // sets the current column as the missing column we are checking
           for (int j = 0; j < 9; j++) {
-            if (j == currCol) { // if the grid column is equal to the current column
-                // loop through all the elements in this column
+            if (j == currCol) {
                 for (int row = 0; row < 9; row++) {
                     for (int col = 0; col < 9; col++) {
                         if (col == currCol) {
-                            // finds if num is in the column we are checking
                             if (grid[row][col] == num) {
-                                noColumn.insert(col); 
-                                cout << num << " is found in " << row << ", " << col << endl;  
-                                // needs to check if num is in the row of each of these missing columns
-                                // if num is in this row, we can't put num there so we need to check the next row
-                                // if all of the rows have num, we need to check the next column
-                                // once a spot has been found we need to replace the grid position with num and move onto the next number
-                            }  
-                        }
+                                if (find(possColl.begin(), possColl.end(), col) != possColl.end()) {
+                                    possColl.erase(col); 
+                                }
+                            } 
+                        } 
                     }
                 }
             }
         }
         }
-        for (auto i : noColumn) {
-            cout << num << " cannot go in column " << i << endl; 
+        // found possibler locations. need to filter. 
+        for (auto i : possColl) {
+            cout << num << " Can go in column " << i << endl; 
         }
     }
     return 0; 

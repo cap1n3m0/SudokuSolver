@@ -45,8 +45,18 @@ int main() {
     }
     // loops though values it needs to add to find the right row
     for (int num : numsToAdd) {
-        for (int c = 0; c < missingColumns; c++) {
+        for (int c = 0; c < missingColumns.size(); c++) {
          // loops through the missing columns
+         int currCol = missingColumns[c]; 
+         // sets the current column as the missing column we are checking
+          for (int j = 0; j < 9; j++) {
+            if (j == currCol) { // if the grid column is equal to the current column
+                // loop through all the elements in this column
+                for () {
+                    
+                }
+            }
+        }
          // needs to check if num is in the row of each of these missing columns
          // if num is in this row, we can't put num there so we need to check the next row
          // if all of the rows have num, we need to check the next column

@@ -1,18 +1,64 @@
 #include <iostream> 
 #include <vector> 
+#include <iterator> 
 #include <set> 
 #include <map> 
 
-using namespace std; 
+const int SIZE = 9; 
+
+void check(int grid[SIZE][SIZE], int possibleNumber, int rowNumber, int colNumber, bool& flag) {
+    for (int colCheck = 0; colCheck < SIZE; colCheck++) {
+        if (grid[rowNumber][colCheck] == possibleNumber) {
+            flag = true; 
+            // std::cout << "Cannot use the number " << possibleNumber << "\n"; 
+            return; 
+        }      
+    } 
+    for (int rowCheck = 0; rowCheck < SIZE; rowCheck++) {
+        if (grid[rowCheck][colNumber] == possibleNumber) {
+            flag = true; 
+            // std::cout << "Cannot use the number " << possibleNumber << "\n"; 
+            std::cout << grid[rowCheck][colNumber] << " is equal to " << possibleNumber << "\n"; 
+            return; 
+        }      
+    } 
+}
+
+void place(int grid[SIZE][SIZE], int rowNumber, int colNumber) {
+    bool flag = false; 
+    for (int possibleNumber = 1; possibleNumber < SIZE; possibleNumber++) {
+        check(grid, possibleNumber, rowNumber, colNumber, flag); 
+        if (!flag) {
+            grid[rowNumber][colNumber] = possibleNumber; 
+            return; 
+        }
+    }
+}
+
+void printGrid(int grid[SIZE][SIZE]) {
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j < SIZE; j++) {
+            std::cout << grid[i][j] << " "; 
+        }
+        std::cout << std::endl; 
+    }   
+}
+
+void solve(int grid[SIZE][SIZE]) {
+    for (int missingCellX = 0; missingCellX < SIZE; missingCellX++) {
+        for (int missingCellY = 0; missingCellY < SIZE; missingCellY++) {
+            if (grid[missingCellX][missingCellY] == 0) {
+                std::cout << "is replacing " << missingCellX << ", " << missingCellY << std::endl;
+                place(grid, missingCellX, missingCellY); 
+            }
+        }
+    }
+    printGrid(grid); 
+    return; 
+}
 
 int main() {
-    const int SIZE = 9; 
-    vector<int> missingColumns; 
-    vector<int> numsToAdd {1, 2, 3, 4, 5, 6, 7, 8, 9}; 
-    set<int> possColl; 
-    map<int, int> possPos; 
     int grid[SIZE][SIZE] = 
-    //    0  1  2  3  4  5  6  7  8
         {{3, 0, 6, 5, 0, 8, 4, 0, 0}, 
          {5, 2, 0, 0, 0, 0, 0, 0, 0}, 
          {0, 8, 7, 0, 0, 0, 0, 3, 1}, 
@@ -21,52 +67,8 @@ int main() {
          {0, 5, 0, 0, 9, 0, 6, 0, 0}, 
          {1, 3, 0, 0, 0, 0, 2, 5, 0}, 
          {0, 0, 0, 0, 0, 0, 0, 7, 4}, 
-         {0, 0, 5, 2, 0, 6, 3, 0, 0} }; 
-    for (int SEQ = 0; SEQ < SIZE; SEQ++) {
-        cout << "checking " << SEQ << endl; 
-        cout << "checking " << SEQ << endl; 
-        cout << "checking " << SEQ << endl; 
-        for (int i = 0; i < SIZE; i++) {
-         int num = grid[SEQ][i]; 
-          vector<int> :: iterator f = find(numsToAdd.begin(), numsToAdd.end(), num); 
-        if (grid[SEQ][i] != 0) {
-            if (f != numsToAdd.end()) {
-                numsToAdd.erase(f); 
-            }
-        } else {
-            missingColumns.push_back(i); 
-        }
-    }
-    vector<int> :: iterator i = missingColumns.begin(); 
-    // loops though values it needs to add to find the right row
-    for (int num : numsToAdd) {
-        if (possColl.size() > 0) {
-            possColl.clear(); 
-        }
-        copy(missingColumns.begin(), missingColumns.end(), inserter(possColl, possColl.begin())); 
-        for (int c = 0; c < missingColumns.size(); c++) {
-         int currCol = missingColumns[c]; 
-          for (int j = 0; j < SIZE; j++) {
-            if (j == currCol) {
-                for (int row = 0; row < SIZE; row++) {
-                    for (int col = 0; col < SIZE; col++) {
-                        if (col == currCol) {
-                            if (grid[row][col] == num) {
-                                if (find(possColl.begin(), possColl.end(), col) != possColl.end()) {
-                                    possColl.erase(col); 
-                                }
-                            } 
-                        } 
-                    }
-                }
-            }
-        }
-        }
-        // found possibler locations. need to filter. 
-        for (auto i : possColl) {
-            cout << num << " Can go in column " << i << endl; 
-        }
-    }   
-    }
+         {0, 0, 5, 2, 0, 6, 3, 0, 0} };  
+    // std::cout << grid[3][0] << std::endl; 
+    solve(grid); 
     return 0; 
 }

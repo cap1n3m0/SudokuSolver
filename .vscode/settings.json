@@ -4,6 +4,10 @@
         "ostream": "cpp",
         "iostream": "cpp",
         "set": "cpp",
-        "iterator": "cpp"
+        "iterator": "cpp",
+        "iosfwd": "cpp",
+        "__tree": "cpp",
+        "bitset": "cpp",
+        "map": "cpp"
     }
 }
